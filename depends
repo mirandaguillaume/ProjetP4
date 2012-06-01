@@ -1,0 +1,7 @@
+grille.o: grille.cpp grille.hpp humain.hpp ronin.hpp yakusa.hpp \
+ samourai.hpp
+humain.o: humain.cpp humain.hpp
+main.o: main.cpp grille.hpp humain.hpp ronin.hpp yakusa.hpp samourai.hpp
+ronin.o: ronin.cpp ronin.hpp yakusa.hpp humain.hpp
+samourai.o: samourai.cpp samourai.hpp ronin.hpp yakusa.hpp humain.hpp
+yakusa.o: yakusa.cpp yakusa.hpp humain.hpp
