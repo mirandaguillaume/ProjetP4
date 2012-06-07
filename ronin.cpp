@@ -19,7 +19,11 @@ ronin::~ronin()
 void ronin::donner(humain* h)
 {
   std::string s(h->getName());
-  int i=rand()%(money+1);
+  int i;
+  if (money!=0)
+    i=rand()%(money+1);
+  else 
+    i=0;
   h->gagnerMoney(i);
   perdreMoney(i);
   parler("Tiens "+s+", voilà "+ToString(i)+" euros.");
@@ -33,7 +37,10 @@ void ronin::provoquer(humain* h,bool a)
   if (a)
     {
       honneur++;
-      m=rand()%(h->getMoney()+1);
+      if (h->getMoney()!=0)
+	m=rand()%(h->getMoney()+1);
+      else 
+	m=0;
       h->perdreMoney(m);
       gagnerMoney(m);
       h->perdre();
@@ -42,7 +49,10 @@ void ronin::provoquer(humain* h,bool a)
   else
     {
       honneur--;
-      m=rand()%(money+1);
+      if (money!=0)
+	m=rand()%(money+1);
+      else
+	m=0;
       h->gagnerMoney(m);
       perdreMoney(m);
       h->gagner();
