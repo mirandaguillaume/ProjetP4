@@ -32,6 +32,7 @@ grille::grille()
 {
   int a,b,c;
   init_matrice(matrice);
+  string s;
   for (int i=0;i<((2*25)/3);i++)
     {
       do
@@ -42,16 +43,16 @@ grille::grille()
       c=rand()%3;
       switch(c)
 	{
-	case 0 : matrice[a][b]=new yakusa(randomPrenom().c_str(),randomPrenom().c_str(),rand()%1000);break;
-	case 1 : matrice[a][b]=new ronin(randomPrenom().c_str(),rand()%1000);break;
-	case 2 : matrice[a][b]=new samourai(randomPrenom().c_str(),randomPrenom().c_str(),rand()%1000);break;
+	case 0 : s=randomPrenom()+" Y";
+	  matrice[a][b]=new yakusa(s.c_str(),randomPrenom().c_str(),rand()%1000);break;
+	case 1 : s=randomPrenom()+" R";  matrice[a][b]=new ronin(s.c_str(),rand()%1000);break;
+	case 2 : s=randomPrenom()+" S"; matrice[a][b]=new samourai(s.c_str(),randomPrenom().c_str(),rand()%1000);break;
 	}
     }
 }
 
 bool grille::AllPlayed()
 {
-  cout<<" ";
   for (int i=0;i<5;i++)
     for(int j=0;j<5;j++)
       if (matrice[i][j]!=NULL)
@@ -71,7 +72,7 @@ void grille::deplacement()
 	  j=rand()%5;
 	} while(matrice[i][j]==NULL);
       if (!matrice[i][j]->getJoue())
-	deplacer(i,j,cpt);
+	  deplacer(i,j,cpt);
     }
   for (int i=0;i<5;i++)
     for (int j=0;j<5;j++)
@@ -83,11 +84,11 @@ void grille::deplacer_perso(int i,int j,int k, int l,int &cpt, bool &a)
 {
   humain* h=NULL;
   bool b=false;
-  if (matrice[k][l]!=NULL)
-    b=matrice[k][l]->getJoue();
-  if (!b)
+  if ((k!=5)&&(k!=-1)&&(l!=-1)&&(l!=5))
     {
-      if ((k!=5)&&(k!=-1)&&(l!=-1)&&(l!=5))
+      if (matrice[k][l]!=NULL)
+	b=matrice[k][l]->getJoue();
+      if (!b)
 	{
 	  cpt++;
 	  cout<<endl<<cpt<<". ";
@@ -129,17 +130,25 @@ void grille::deplacer(int i,int j,int &cpt)
 {
   bool a=false;
   int choix,k,l;
+  bool e,b,c,d;
+  b=c=d=e=false;
   do
     {
       choix=rand()%4;
       switch(choix)
 	{
-	case 0:	 k=i+1;l=j;break;
-	case 1:  k=i-1;l=j;break;
-	case 2:  k=i;l=j+1;break;
-	case 3:  k=i;l=j-1;break;
+	case 0:	 k=i+1;l=j;b=true;break;
+	case 1:  k=i-1;l=j;c=true;break;
+	case 2:  k=i;l=j+1;d=true;break;
+	case 3:  k=i;l=j-1;e=true;break;
 	}
       deplacer_perso(i,j,k,l,cpt,a);
+      if ((b) && (c) && (d) && (e))
+	{
+	  cout<<cpt<<" . Le personnage "<< matrice[i][j]->getName()<<" est coincé."<<endl;
+	  a=true;
+	  matrice[i][j]->setJoue(true);
+	}
     } while(!a);
 }				  
 
